@@ -6,9 +6,9 @@ package com.almundo;
  */
 public class App 
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws InterruptedException
     {
-        Dispatcher d = new Dispatcher();
+        Dispatcher d = Dispatcher.getInstance();
         d.dispatchCall();
         d.dispatchCall();
         d.dispatchCall();
@@ -19,5 +19,6 @@ public class App
         d.dispatchCall();
         d.dispatchCall();
         d.dispatchCall();
+        d.finalize();
     }
 }
