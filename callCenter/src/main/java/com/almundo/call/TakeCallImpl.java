@@ -13,7 +13,6 @@ public class TakeCallImpl implements TakeCall {
 		int high = 11;
 		int result = r.nextInt(high - low) + low;
 		try {
-			System.out.println(result);
 			Thread.sleep(result * 1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

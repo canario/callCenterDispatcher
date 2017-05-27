@@ -9,15 +9,16 @@ import java.util.concurrent.TimeUnit;
 
 import com.almundo.call.TakeCall;
 import com.almundo.call.TakeCallImpl;
+import com.almundo.exception.NoEmployeeException;
 import com.almundo.model.Employee;
 
 public class Dispatcher {
 
-	private List<Employee> operatorsList = Collections.synchronizedList(new ArrayList<>());
+	private List<Employee> operatorsList;
 
-	private List<Employee> supervisorsList = Collections.synchronizedList(new ArrayList<>());;
+	private List<Employee> supervisorsList;
 
-	private List<Employee> directorsList = Collections.synchronizedList(new ArrayList<>());;
+	private List<Employee> directorsList;
 
 	private static Dispatcher instance;
 
@@ -25,14 +26,17 @@ public class Dispatcher {
 
 	private Dispatcher() {
 		executor = Executors.newFixedThreadPool(10);
+		operatorsList = Collections.synchronizedList(new ArrayList<>());
+		supervisorsList = Collections.synchronizedList(new ArrayList<>());
+		directorsList = Collections.synchronizedList(new ArrayList<>());
 	}
 
 	public Dispatcher(List<Employee> operators, List<Employee> supervisors, List<Employee> directors) {
 		super();
 		executor = Executors.newFixedThreadPool(10);
-		operatorsList.addAll(operators);
-		supervisorsList.addAll(supervisors);
-		directorsList.addAll(directors);
+		operatorsList = Collections.synchronizedList(operators);
+		supervisorsList = Collections.synchronizedList(supervisors);
+		directorsList = Collections.synchronizedList(directors);
 	}
 
 	public static Dispatcher getInstance() {
@@ -43,16 +47,7 @@ public class Dispatcher {
 
 	}
 
-	public static Dispatcher getInstance(List<Employee> operators, List<Employee> supervisors,
-			List<Employee> directors) {
-		if (instance == null) {
-			instance = new Dispatcher(operators, supervisors, directors);
-		}
-		return instance;
-
-	}
-
-	public void dispatchCall() {
+	public void dispatchCall() throws NoEmployeeException {
 		if (operatorsList.size() > 0) {
 			attendCall(operatorsList.remove(0), operatorsList);
 		} else if (supervisorsList.size() > 0) {
@@ -60,7 +55,7 @@ public class Dispatcher {
 		} else if (directorsList.size() > 0) {
 			attendCall(directorsList.get(0), directorsList);
 		} else {
-			System.out.println("No se pudo atender");
+			throw new NoEmployeeException();
 		}
 	}
 
@@ -69,10 +64,7 @@ public class Dispatcher {
 		executor.execute(() -> {
 			TakeCall call = new TakeCallImpl();
 			call.answer(employee);
-			System.out.println("Hello World" + employee);
-			// employee.getAndIncrement();
 			employees.add(employee);
-			System.out.println("Hello World" + employee);
 		});
 
 	}
@@ -85,6 +77,10 @@ public class Dispatcher {
 			e.printStackTrace();
 		}
 	}
+	
+	public void initialize(){
+		executor = Executors.newFixedThreadPool(10);
+	}
 
 	public List<Employee> getOperatorsList() {
 		return operatorsList;
@@ -93,8 +89,8 @@ public class Dispatcher {
 	public void setOperatorsList(List<Employee> operatorsList) {
 		this.operatorsList = operatorsList;
 	}
-	
-	public void addOperator(Employee operator){
+
+	public void addOperator(Employee operator) {
 		this.operatorsList.add(operator);
 	}
 
@@ -105,8 +101,8 @@ public class Dispatcher {
 	public void setSupervisorsList(List<Employee> supervisorsList) {
 		this.supervisorsList = supervisorsList;
 	}
-	
-	public void addSupervisor(Employee supervisor){
+
+	public void addSupervisor(Employee supervisor) {
 		this.supervisorsList.add(supervisor);
 	}
 
@@ -117,10 +113,16 @@ public class Dispatcher {
 	public void setDirectorsList(List<Employee> directorsList) {
 		this.directorsList = directorsList;
 	}
-	
+
 	public void addDirector(Employee director) {
 		this.directorsList.add(director);
 	}
 
-	
+	protected void clearEmployees() {
+		operatorsList = Collections.synchronizedList(new ArrayList<>());
+		supervisorsList = Collections.synchronizedList(new ArrayList<>());
+		directorsList = Collections.synchronizedList(new ArrayList<>());
+		
+	}
+
 }
