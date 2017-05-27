@@ -2,14 +2,16 @@ package com.almundo.call;
 
 import java.util.Random;
 
+import com.almundo.model.Employee;
+
 public class TakeCallImpl implements TakeCall {
 
 	@Override
-	public void answer() {
+	public void answer(Employee employee) {
 		Random r = new Random();
 		int low = 5;
 		int high = 11;
-		int result = r.nextInt(high-low) + low;
+		int result = r.nextInt(high - low) + low;
 		try {
 			System.out.println(result);
 			Thread.sleep(result * 1000);
@@ -17,7 +19,7 @@ public class TakeCallImpl implements TakeCall {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }
