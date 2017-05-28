@@ -31,14 +31,6 @@ public class Dispatcher {
 		directorsList = Collections.synchronizedList(new ArrayList<>());
 	}
 
-	public Dispatcher(List<Employee> operators, List<Employee> supervisors, List<Employee> directors) {
-		super();
-		executor = Executors.newFixedThreadPool(10);
-		operatorsList = Collections.synchronizedList(operators);
-		supervisorsList = Collections.synchronizedList(supervisors);
-		directorsList = Collections.synchronizedList(directors);
-	}
-
 	public static Dispatcher getInstance() {
 		if (instance == null) {
 			instance = new Dispatcher();
