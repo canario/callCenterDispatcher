@@ -4,7 +4,7 @@ Este proyecto se encarga de despachar llamadas de un call center a los
 operadores, a los supervisores en caso de no haber operadores disponibles y
 a los directores en caso de no haber supervisores disponibles.
 
-#Mejoras
+# Mejoras
 
 ## Solución para cuando no hay empleados disponibles
 
