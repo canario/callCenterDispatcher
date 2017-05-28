@@ -22,4 +22,4 @@ inicializa la clase se tome de system properties o de un archivo de propiedades.
 
 En lugar de usar listas de empleados se podrian usar colas de empleados, asi se
 asegura que el empleado que se asigna es el que lleva mas tiempo sin atender una
-llamada. Las colas también deberian se syncronizadas.
+llamada. Las colas también deberian se sincronicas.
