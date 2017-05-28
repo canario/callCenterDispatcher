@@ -8,15 +8,16 @@ import java.util.concurrent.Executors;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.almundo.exception.NoEmployeeException;
+import com.almundo.exception.NoAvailableEmployeeException;
 import com.almundo.model.Employee;
+import com.almundo.model.EmployeeType;
 
 public class DispatcherTest {
 
 	private Dispatcher dispatcher;
 
-	@Test(expected = NoEmployeeException.class)
-	public void testDispatchCallWithNoEmployees() throws NoEmployeeException {
+	@Test(expected = NoAvailableEmployeeException.class)
+	public void testDispatchCallWithNoEmployees() throws NoAvailableEmployeeException {
 		dispatcher = Dispatcher.getInstance();
 		dispatcher.initialize();
 		dispatcher.clearEmployees();
@@ -26,13 +27,13 @@ public class DispatcherTest {
 
 	}
 
-	@Test(expected = NoEmployeeException.class)
-	public void testDispatchCallWithOnlyOneEmployees() throws NoEmployeeException {
+	@Test(expected = NoAvailableEmployeeException.class)
+	public void testDispatchCallWithOnlyOneEmployees() throws NoAvailableEmployeeException {
 		dispatcher = Dispatcher.getInstance();
 		dispatcher.initialize();
 		List<Employee> opEmployees = new ArrayList<>();
 
-		opEmployees.add(new Employee());
+		opEmployees.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
 		dispatcher.clearEmployees();
 		dispatcher.setOperatorsList(opEmployees);
 		dispatcher.dispatchCall();
@@ -41,16 +42,16 @@ public class DispatcherTest {
 	}
 
 	@Test
-	public void testDispatchCallWithOperatorsAndSupervidor() throws NoEmployeeException {
+	public void testDispatchCallWithOperatorsAndSupervidor() throws NoAvailableEmployeeException {
 		dispatcher = Dispatcher.getInstance();
 		dispatcher.initialize();
 		List<Employee> operators = new ArrayList<>();
 
-		operators.add(new Employee());
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
 
 		List<Employee> supervisors = new ArrayList<>();
 
-		supervisors.add(new Employee());
+		supervisors.add(new Employee(EmployeeType.SUPERVISOR, "John", "Doe"));
 
 		dispatcher.clearEmployees();
 		dispatcher.setOperatorsList(operators);
@@ -62,25 +63,25 @@ public class DispatcherTest {
 	}
 
 	@Test
-	public void testDispatchCallWithEmployees() throws NoEmployeeException {
+	public void testDispatchCallWithEmployees() throws NoAvailableEmployeeException {
 		dispatcher = Dispatcher.getInstance();
 		dispatcher.initialize();
 		ExecutorService executor;
 		List<Employee> operators = new ArrayList<>();
 
-		operators.add(new Employee());
-		operators.add(new Employee());
-		operators.add(new Employee());
-		operators.add(new Employee());
-		operators.add(new Employee());
-		operators.add(new Employee());
-		operators.add(new Employee());
-		operators.add(new Employee());
-		operators.add(new Employee());
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
 
 		List<Employee> supervisors = new ArrayList<>();
 
-		supervisors.add(new Employee());
+		supervisors.add(new Employee(EmployeeType.SUPERVISOR, "John", "Doe"));
 
 		dispatcher.clearEmployees();
 		dispatcher.setOperatorsList(operators);
@@ -92,7 +93,7 @@ public class DispatcherTest {
 			executor.execute(() -> {
 				try {
 					dispatcher.dispatchCall();
-				} catch (NoEmployeeException e) {
+				} catch (NoAvailableEmployeeException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -108,17 +109,17 @@ public class DispatcherTest {
 		ExecutorService executor;
 		List<Employee> operators = new ArrayList<>();
 
-		operators.add(new Employee());
-		operators.add(new Employee());
-		operators.add(new Employee());
-		operators.add(new Employee());
-		operators.add(new Employee());
-		operators.add(new Employee());
-		operators.add(new Employee());
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
+		operators.add(new Employee(EmployeeType.OPERATOR, "John", "Doe"));
 
 		List<Employee> supervisors = new ArrayList<>();
 
-		supervisors.add(new Employee());
+		supervisors.add(new Employee(EmployeeType.DIRECTOR, "John", "Doe"));
 
 		dispatcher.clearEmployees();
 		dispatcher.setOperatorsList(operators);
@@ -130,7 +131,7 @@ public class DispatcherTest {
 			executor.execute(() -> {
 				try {
 					dispatcher.dispatchCall();
-				} catch (NoEmployeeException e) {
+				} catch (NoAvailableEmployeeException e) {
 					// TODO Auto-generated catch block
 					Assert.assertTrue(true);
 				}

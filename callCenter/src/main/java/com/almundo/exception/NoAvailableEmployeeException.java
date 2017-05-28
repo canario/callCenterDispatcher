@@ -1,6 +1,6 @@
 package com.almundo.exception;
 
-public class NoEmployeeException extends Exception {
+public class NoAvailableEmployeeException extends Exception {
 
 	/**
 	 * 
